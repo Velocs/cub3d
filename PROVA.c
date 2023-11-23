@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:11:58 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:23:37 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,24 @@ void	draw3DWall(t_items *it, int r, float lineOff, float lineH)
         	int color = 0xFF0000; // Colore rosso per la barra
         	my_mlx_pixel_put(it, r * 8 + i, y, color);
     	}
+	}
+}
+
+void	drawfloor(t_items *it)
+{
+	int y;
+	int x;
+	
+	y = 280;
+	while (y < 640)
+	{
+		x = 0;
+		while (x < 960)
+		{
+			my_mlx_pixel_put(it, x, y, 0x0000FF);
+			x++;			
+		}
+		y++;
 	}
 }
 

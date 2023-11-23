@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:52:37 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:07:18 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:21:51 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		button_down(int key, t_items *it);
 int		ft_exit(t_items *it);
 float	distance(float ax, float ay, float bx, float by);
 float	degToRad(float a);
+void	drawfloor(t_items *it);
 // //void	draw_player(t_items *it);
 // int		check_input(int key, t_items *it);
 // void	fd_check(t_items *it);
