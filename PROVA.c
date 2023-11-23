@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:37:51 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:11:58 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	draw3DWall(t_items *it, int r, float lineOff, float lineH)
 		for (int i = 0; i <= it->thickness; i++)
 		{
         	int color = 0xFF0000; // Colore rosso per la barra
-        	my_mlx_pixel_put(it, r * 8 + 514 + i, y, color);
+        	my_mlx_pixel_put(it, r * 8 + i, y, color);
     	}
 	}
 }
@@ -116,8 +116,6 @@ int main(int ac, char **av)
 		it.y_max = line_counter(&it);
 		it.x_max = column_counter(&it);
 		matrix_c(&it);
-		drawMap2D(&it);
-		drawPlayer2D(&it);
 		draw_rays_2d(&it);
 		mlx_hook(it.win, 2, (1L << 0), button_down, &it);
 		mlx_hook(it.win, 3, 1L << 1, button_up, &it);

@@ -6,13 +6,13 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:23 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:23:18 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:06:20 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int FixAng(int a)
+float FixAng(float a)
 {
 	if (a > 359)
 		a -= 360;
@@ -21,7 +21,7 @@ int FixAng(int a)
 	return a;
 }
 
-float degToRad(int a)
+float degToRad(float a)
 {
 	return a * M_PI / 180.0;
 }

@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:52:37 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:34:34 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:07:18 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void	drawPlayer2D(t_items *it);
 int		ft_strcmp(char *s1, char *s2);
 int		line_counter(t_items *it);
 int		column_counter(t_items *it);
-int		FixAng(int a);
+float		FixAng(float a);
 int		movement(t_items *it);
 int		button_up(int key, t_items *it);
 int		button_down(int key, t_items *it);
 int		ft_exit(t_items *it);
 float	distance(float ax, float ay, float bx, float by);
-float	degToRad(int a);
+float	degToRad(float a);
 // //void	draw_player(t_items *it);
 // int		check_input(int key, t_items *it);
 // void	fd_check(t_items *it);

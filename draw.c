@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:35:59 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:36:42 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:12:20 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void draw_rays_2d(t_items	*it)
     float vx, vy, rx, ry, ra, xo, yo, disT;
 
     ra = FixAng(it->pa + 30);
-    for (r = 0; r < 60; r++)
+    for (r = 0; r < 120; r++)
     {
         dof = 0;
 		float disV = 1000000;
@@ -124,12 +124,12 @@ void draw_rays_2d(t_items	*it)
 		if (ca > 2 * PI)
 			ca -= 2 * PI;
 		disT = disT * cos(degToRad(ca));
-  		float lineH = (mapS * 320) / (disT);
-		if (lineH > 320)
-			lineH = 320;
-  		float lineOff = 160 - lineH / 2;
+  		float lineH = (mapS * 640) / (disT);
+		if (lineH > 640)
+			lineH = 640;
+  		float lineOff = 320 - lineH / 2.0;
 		draw3DWall(it, r, lineOff, lineH);
-		ra = FixAng(ra - 1);
+		ra = FixAng(ra - 0.5);
     }
 	mlx_put_image_to_window(it->mlx, it->win, it->img, 0, 0);
 }
@@ -147,8 +147,6 @@ void drawMap2D(t_items *it)
 				int startY = y * mapS;
 				int endX = startX + mapS;
 				int endY = startY + mapS;
-
-				// Disegna un quadrato per il valore 1
 				for (int i = startX; i < endX; i++)
 				{
 					for (int j = startY; j < endY; j++)

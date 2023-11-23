@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:30:07 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:30:40 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:12:13 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int movement(t_items *it)
 	if (it->esc == 1)
 		ft_exit(it);
 	ft_clear(it);
-	drawMap2D(it);
-	drawPlayer2D(it);
 	draw_rays_2d(it);
 	return (0);
 }

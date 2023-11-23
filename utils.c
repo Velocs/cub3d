@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:31 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:32:14 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/23 18:04:44 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	ft_strcmp(char *s1, char *s2)
 void	initializer(t_items *it)
 {
 	it->mlx = mlx_init();
-	it->win = mlx_new_window(it->mlx, 1024, 512, "cub3d");
-	it->img = mlx_new_image(it->mlx, 1024, 512);
+	it->win = mlx_new_window(it->mlx, 960, 640, "cub3d");
+	it->img = mlx_new_image(it->mlx, 960, 640);
 	it->addr = mlx_get_data_addr(it->img, &it->bits_per_pixel, &it->line_length, &it->endian);
 	it->px = 150;
 	it->py = 400;
@@ -60,7 +60,7 @@ int	ft_exit(t_items *it)
 void	ft_clear(t_items *it)
 {
 	mlx_destroy_image(it->mlx, it->img);
-	it->img = mlx_new_image(it->mlx, 1024, 512);
+	it->img = mlx_new_image(it->mlx, 960, 640);
 	it->addr = mlx_get_data_addr(it->img, &it->bits_per_pixel, &it->line_length, &it->endian);
 }
 
