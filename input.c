@@ -91,6 +91,7 @@ int movement(t_items *it)
 	if (it->esc == 1)
 		ft_exit(it);
 	ft_clear(it);
+	drawceiling(it);
 	drawfloor(it);
 	draw_rays_2d(it);
 	return (0);

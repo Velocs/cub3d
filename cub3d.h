@@ -82,6 +82,7 @@ int		ft_exit(t_items *it);
 float	distance(float ax, float ay, float bx, float by);
 float	degToRad(float a);
 void	drawfloor(t_items *it);
+void	drawceiling(t_items *it);
 // //void	draw_player(t_items *it);
 // int		check_input(int key, t_items *it);
 // void	fd_check(t_items *it);

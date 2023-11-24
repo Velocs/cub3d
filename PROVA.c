@@ -105,6 +105,24 @@ void	draw3DWall(t_items *it, int r, float lineOff, float lineH)
 	}
 }
 
+void	drawceiling(t_items *it)
+{
+	int y;
+	int x;
+	
+	y = 0;
+	while (y < 280)
+	{
+		x = 0;
+		while (x < 960)
+		{
+			my_mlx_pixel_put(it, x, y, 0x0000FF);
+			x++;			
+		}
+		y++;
+	}
+}
+
 void	drawfloor(t_items *it)
 {
 	int y;
