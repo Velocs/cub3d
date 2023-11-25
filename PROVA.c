@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:23:37 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:54:11 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	drawfloor(t_items *it)
 		x = 0;
 		while (x < 960)
 		{
-			my_mlx_pixel_put(it, x, y, 0x0000FF);
+			my_mlx_pixel_put(it, x, y, 0x00F00F);
 			x++;			
 		}
 		y++;
@@ -147,11 +147,15 @@ int main(int ac, char **av)
 
 	if(ac == 2)
 	{
+		int s = 64;
 		it.map = av[1];
 		initializer(&it);
 		it.y_max = line_counter(&it);
+		readfile(&it);
 		it.x_max = column_counter(&it);
-		matrix_c(&it);
+		printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.floor, it.ceiling);
+		//mlx_xpm_file_to_image(it.mlx, it.ea, &s, &s);
+		// matrix_c(&it);
 		draw_rays_2d(&it);
 		mlx_hook(it.win, 2, (1L << 0), button_down, &it);
 		mlx_hook(it.win, 3, 1L << 1, button_up, &it);

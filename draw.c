@@ -1,152 +1,161 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 14:35:59 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:12:20 by aliburdi         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   draw.c											 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: aliburdi <aliburdi@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2023/11/23 14:35:59 by aliburdi		  #+#	#+#			 */
+/*   Updated: 2023/11/25 15:15:06 by aliburdi		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void draw_rays_2d(t_items	*it)
+void	draw_rays_2d(t_items	*it)
 {
-    int r, mx, my, mp, dof;
-    float vx, vy, rx, ry, ra, xo, yo, disT;
-
-    ra = FixAng(it->pa + 30);
-    for (r = 0; r < 120; r++)
-    {
-        dof = 0;
-		float disV = 1000000;
-        float Tan = tan(degToRad(ra));
-        if (cos(degToRad(ra)) > 0.001)
-        {
-            rx = (((int)it->px / 64) * 64) + 64;
-            ry = (it->px - rx) * Tan + it->py;
-            xo = 64;
-            yo = -xo * Tan;
-        }
-        else if (cos(degToRad(ra)) < -0.001)
-        {
-            rx = (((int)it->px / 64) * 64) - 0.0001;
-            ry = (it->px - rx) * Tan + it->py;
-            xo = -64;
-            yo = -xo * Tan;
-        }
-        else
-        {
-            rx = it->px;
-            ry = it->py;
-            dof = 10;
-        }
-        while (dof < 10)
-        {
-            mx = (int)(rx) / 64;
-            my = (int)(ry) / 64;
-            mp = my * it->x_max + mx;
-            if (mp > 0 && mp < it->x_max * it->y_max && it->matrix[mp/it->x_max][mp%it->x_max] == '1')
+	it->ra = FixAng(it->pa + 30);
+	it->r = 0;
+	while (it->r < 120)
+	{
+		it->dof = 0;
+		it->disv = 1000000;
+		it->tang = tan(degToRad(it->ra));
+		if (cos(degToRad(it->ra)) > 0.001)
+		{
+			it->rx = (((int)it->px / 64) * 64) + 64;
+			it->ry = (it->px - it->rx) * it->tang + it->py;
+			it->xo = 64;
+			it->yo = -it->xo * it->tang;
+		}
+		else if (cos(degToRad(it->ra)) < -0.001)
+		{
+			it->rx = (((int)it->px / 64) * 64) - 0.0001;
+			it->ry = (it->px - it->rx) * it->tang + it->py;
+			it->xo = -64;
+			it->yo = -it->xo * it->tang;
+		}
+		else
+		{
+			it->rx = it->px;
+			it->ry = it->py;
+			it->dof = 10;
+		}
+		while (it->dof < 10)
+		{
+			it->mx = (int)(it->rx) / 64;
+			it->my = (int)(it->ry) / 64;
+			it->mp = it->my * it->x_max + it->mx;
+			if (it->mp > 0 && it->mp < it->x_max * it->y_max && \
+				it->matrix[it->mp / it->x_max][it->mp % it->x_max] == '1')
 			{
-                dof = 10;
-				disV = cos(degToRad(ra)) * (rx - it->px) -sin(degToRad(ra)) * (ry - it->py);
+				it->dof = 10;
+				it->disv = cos(degToRad(it->ra)) * (it->rx - it->px) - \
+					sin(degToRad(it->ra)) * (it->ry - it->py);
 			}
 			else
-            {
-                rx += xo;
-                ry += yo;
-                dof += 1;
-            }
-        }
-		vx = rx;
-		vy = ry;
-
-		dof = 0;
-		float disH = 1000000, hx = it->px, hy = it->py;
-        Tan = 1.0 / Tan;
-        if (sin(degToRad(ra)) > 0.001)
-        {
-            ry = (((int)it->py / 64) * 64) -0.0001;
-            rx = (it->py - ry) * Tan + it->px;
-            yo = -64;
-            xo = -yo * Tan;
-        }
-        else if (sin(degToRad(ra)) < -0.001)
-        {
-            ry = (((int)it->py / 64) * 64) + 64;
-            rx = (it->py - ry) * Tan + it->px;
-            yo = 64;
-            xo = -yo * Tan;
-        }
-        else
-        {
-            ry = it->py;
-            rx = it->px;
-            dof = 8;
-        }
-        while (dof < 8)
-        {
-            mx = (int)(rx) / 64;
-            my = (int)(ry) / 64;
-            mp = my * it->y_max + mx;
-            if (mp > 0 && mp < it->x_max * it->y_max && it->matrix[mp/it->x_max][mp%it->x_max] == '1')
 			{
-                dof = 8;
-				hx = rx;
-				hy = ry;
-				disH = cos(degToRad(ra)) * (rx - it->px) - sin(degToRad(ra)) * (ry - it->py);
+				it->rx += it->xo;
+				it->ry += it->yo;
+				it->dof += 1;
+			}
+		}
+		it->vx = it->rx;
+		it->vy = it->ry;
+		it->dof = 0;
+		it->dish = 1000000;
+		it->hx = it->px;
+		it->hy = it->py;
+		it->tang = 1.0 / it->tang;
+		if (sin(degToRad(it->ra)) > 0.001)
+		{
+			it->ry = (((int)it->py / 64) * 64) - 0.0001;
+			it->rx = (it->py - it->ry) * it->tang + it->px;
+			it->yo = -64;
+			it->xo = -it->yo * it->tang;
+		}
+		else if (sin(degToRad(it->ra)) < -0.001)
+		{
+			it->ry = (((int)it->py / 64) * 64) + 64;
+			it->rx = (it->py - it->ry) * it->tang + it->px;
+			it->yo = 64;
+			it->xo = -it->yo * it->tang;
+		}
+		else
+		{
+			it->ry = it->py;
+			it->rx = it->px;
+			it->dof = 8;
+		}
+		while (it->dof < 8)
+		{
+			it->mx = (int)(it->rx) / 64;
+			it->my = (int)(it->ry) / 64;
+			it->mp = it->my * it->y_max + it->mx;
+			if (it->mp > 0 && it->mp < it->x_max * it->y_max && \
+				it->matrix[it->mp / it->x_max][it->mp % it->x_max] == '1')
+			{
+				it->dof = 8;
+				it->hx = it->rx;
+				it->hy = it->ry;
+				it->dish = cos(degToRad(it->ra)) * (it->rx - it->px) - \
+				sin(degToRad(it->ra)) * (it->ry - it->py);
 			}
 			else
-            {
-                rx += xo;
-                ry += yo;
-                dof += 1;
-            }
-        }
-		if (disV < disH)
-		{
-			rx = vx;
-			ry = vy;
-			disT = disV;
+			{
+				it->rx += it->xo;
+				it->ry += it->yo;
+				it->dof += 1;
+			}
 		}
-		if (disH < disV)
+		if (it->disv < it->dish)
 		{
-			rx = hx;
-			ry = hy;
-			disT = disH;
+			it->rx = it->vx;
+			it->ry = it->vy;
+			it->dist = it->disv;
 		}
-
-		float ca = it->pa-ra;
-		if (ca < 0)
-			 ca += 2 * PI;
-		if (ca > 2 * PI)
-			ca -= 2 * PI;
-		disT = disT * cos(degToRad(ca));
-  		float lineH = (mapS * 640) / (disT);
-		if (lineH > 640)
-			lineH = 640;
-  		float lineOff = 320 - lineH / 2.0;
-		draw3DWall(it, r, lineOff, lineH);
-		ra = FixAng(ra - 0.5);
-    }
+		if (it->dish < it->disv)
+		{
+			it->rx = it->hx;
+			it->ry = it->hy;
+			it->dist = it->dish;
+		}
+		it->ca = it->pa - it->ra;
+		if (it->ca < 0)
+			it->ca += 2 * PI;
+		if (it->ca > 2 * PI)
+			it->ca -= 2 * PI;
+		it->dist = it->dist * cos(degToRad(it->ca));
+		it->lineh = (MAPS * 640) / (it->dist);
+		if (it->lineh > 640)
+			it->lineh = 640;
+		it->lineoff = 320 - it->lineh / 2.0;
+		draw3DWall(it, it->r, it->lineoff, it->lineh);
+		it->ra = FixAng(it->ra - 0.5);
+		it->r++;
+	}
 	mlx_put_image_to_window(it->mlx, it->win, it->img, 0, 0);
 }
 
-void drawMap2D(t_items *it)
+void	drawMap2D(t_items *it)
 {
-	int x, y;
+	int	x;
+	int	y;
+	int	startX;
+	int	startY;
+	int	endX;
+	int	endY;
+
 	for (y = 0; y < it->y_max; y++)
 	{
 		for (x = 0; x < it->x_max; x++)
 		{
 			if (it->matrix[y][x] == '1')
 			{
-				int startX = x * mapS;
-				int startY = y * mapS;
-				int endX = startX + mapS;
-				int endY = startY + mapS;
+				startX = x * MAPS;
+				startY = y * MAPS;
+				endX = startX + MAPS;
+				endY = startY + MAPS;
 				for (int i = startX; i < endX; i++)
 				{
 					for (int j = startY; j < endY; j++)
@@ -158,10 +167,9 @@ void drawMap2D(t_items *it)
 		}
 	}
 	mlx_put_image_to_window(it->mlx, it->win, it->img, 0, 0);
-
 }
 
-void drawPlayer2D(t_items *it)
+void	draw_player_2d(t_items *it)
 {
 	int	i;
 	int	j;
@@ -178,5 +186,6 @@ void drawPlayer2D(t_items *it)
 		j++;
 	}
 	my_mlx_pixel_put(it, it->px, it->py, 0xFFFF00);
-	drawLine(it->mlx, it->win, it->px, it->py, it->px + it->pdx * 30, it->py + it->pdy * 30, 0xFFFF00);
+	drawLine(it->mlx, it->win, it->px, it->py, it->px + \
+		it->pdx * 30, it->py + it->pdy * 30, 0xFFFF00);
 }

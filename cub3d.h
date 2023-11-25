@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:52:37 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:21:51 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:44:37 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,31 @@
 # include <fcntl.h>
 # include "minilibX/mlx.h"
 # include "get_next_line/get_next_line_bonus.h"
+#include <string.h>
 
-#define mapS 64
-#define PI 3.14159
-#define P2 PI/2
-#define P3 3*PI/2
+# define MAPS 64
+# define PI 3.14159
 
 typedef struct s_items
 {
 	void	*mlx;
 	void	*win;
-	float 	px, py, pdx, pdy, pa;
+	float	px;
+	float	py;
+	float	pdx;
+	float	pdy;
+	float	pa;
 	void	*img;
 	char	*addr;
 	char	*map;
+	char	*file;
 	char	**matrix;
+	char	*no;
+	char	*so;
+	char	*ea;
+	char	*we;
+	char	*floor;
+	char	*ceiling;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -57,8 +67,28 @@ typedef struct s_items
 	int		ipy_sub_y0;
 	int		x_max;
 	int		y_max;
+	int		r;
+	int		mx;
+	int		my;
+	int		mp;
+	int		dof;
+	float	vx;
+	float	vy;
+	float	rx;
+	float	ry;
+	float	ra;
+	float	xo;
+	float	yo;
+	float	dist;
+	float	disv;
+	float	tang;
+	float	dish;
+	float	hx;
+	float	hy;
+	float	ca;
+	float	lineh;
+	float	lineoff;
 }				t_items;
-
 
 void	initializer(t_items *it);
 void	matrix_c(t_items *it);
@@ -70,11 +100,11 @@ void	draw_rays_2d(t_items	*it);
 void	draw3DWall(t_items *it, int r, float lineOff, float lineH);
 void	drawLine(void *mlx, void *win, int x1, int y1, int x2, int y2, int color);
 void	drawMap2D(t_items *it);
-void	drawPlayer2D(t_items *it);
+void	draw_player_2d(t_items *it);
 int		ft_strcmp(char *s1, char *s2);
 int		line_counter(t_items *it);
 int		column_counter(t_items *it);
-float		FixAng(float a);
+float	FixAng(float a);
 int		movement(t_items *it);
 int		button_up(int key, t_items *it);
 int		button_down(int key, t_items *it);
@@ -83,7 +113,11 @@ float	distance(float ax, float ay, float bx, float by);
 float	degToRad(float a);
 void	drawfloor(t_items *it);
 void	drawceiling(t_items *it);
-// //void	draw_player(t_items *it);
+void	file_check(t_items *it);
+void	readfile(t_items *it);
+char	*ft_strdup(char *s1);
+void	printmatrix(t_items *it);
+char	*check_line(char *str);
 // int		check_input(int key, t_items *it);
 // void	fd_check(t_items *it);
 // size_t	ft_strlen(const char *str);

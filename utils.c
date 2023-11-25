@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:31 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:04:44 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:45:24 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	initializer(t_items *it)
 {
+	it->no = 0;
+	it->so = 0;
+	it->ea = 0;
+	it->we = 0;
 	it->mlx = mlx_init();
 	it->win = mlx_new_window(it->mlx, 960, 640, "cub3d");
 	it->img = mlx_new_image(it->mlx, 960, 640);
@@ -70,4 +74,32 @@ void	my_mlx_pixel_put(t_items *it, int x, int y, int color)
 
 	dst = it->addr + (y * it->line_length + x * (it->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char		*s1;
+	unsigned const char	*s2;
+
+	s1 = (unsigned char *)dst;
+	s2 = (unsigned char *)src;
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	while (n--)
+		*s1++ = *s2++;
+	return (dst);
+}
+
+char	*ft_strdup(char *s1)
+{
+	size_t	lenght;
+	char	*s2;
+
+	lenght = ft_strlen(s1);
+	s2 = malloc(lenght + 1);
+	if (!s2)
+		return (0);
+	ft_memcpy(s2, s1, lenght);
+	s2[lenght] = '\0';
+	return (s2);
 }

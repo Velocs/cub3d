@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:30:07 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/23 18:21:38 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:32:44 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int movement(t_items *it)
 	if (it->w == 1)
 	{
 		if (it->matrix[it->ipy][it->ipx_add_x0] == '0')
-			it->px += it->pdx * 0.5;
+			it->px += it->pdx * 0.8;
 		if (it->matrix[it->ipy_add_y0][it->ipx] == '0')
-			it->py += it->pdy * 0.5;
+			it->py += it->pdy * 0.8;
 	}
 	if (it->a == 1)
 	{
@@ -77,9 +77,9 @@ int movement(t_items *it)
 	if (it->s == 1)
 	{
 		if (it->matrix[it->ipy][it->ipx_sub_x0] == '0')
-			it->px -= it->pdx * 0.5;
+			it->px -= it->pdx * 0.8;
 		if (it->matrix[it->ipy_sub_y0][it->ipx] == '0')
-			it->py -= it->pdy * 0.5;
+			it->py -= it->pdy * 0.8;
 	}
 	if (it->d == 1)
 	{
