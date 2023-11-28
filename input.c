@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:30:07 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/25 19:32:44 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:51:31 by lbusi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	button_up(int key, t_items *it)
 	return (0);
 }
 
-int movement(t_items *it)
+int	movement(t_items *it)
 {
 	it->x0 = 0;
 	it->y0 = 0;
@@ -70,9 +70,9 @@ int movement(t_items *it)
 	if (it->a == 1)
 	{
 		it->pa += 1;
-		it->pa = FixAng(it->pa);
-		it->pdx = cos(degToRad(it->pa));
-		it->pdy = -sin(degToRad(it->pa));
+		it->pa = fix_ang(it->pa);
+		it->pdx = cos(deg_to_rad(it->pa));
+		it->pdy = -sin(deg_to_rad(it->pa));
 	}
 	if (it->s == 1)
 	{
@@ -84,15 +84,15 @@ int movement(t_items *it)
 	if (it->d == 1)
 	{
 		it->pa -= 1;
-		it->pa = FixAng(it->pa);
-		it->pdx = cos(degToRad(it->pa));
-		it->pdy = -sin(degToRad(it->pa));
+		it->pa = fix_ang(it->pa);
+		it->pdx = cos(deg_to_rad(it->pa));
+		it->pdy = -sin(deg_to_rad(it->pa));
 	}
 	if (it->esc == 1)
 		ft_exit(it);
 	ft_clear(it);
-	drawceiling(it);
-	drawfloor(it);
+	draw_ceiling(it);
+	draw_floor(it);
 	draw_rays_2d(it);
 	return (0);
 }

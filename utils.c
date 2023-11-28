@@ -6,25 +6,38 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:31 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/25 19:45:24 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:19:57 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_strcmp(char *s1, char *s2)
+t_data *load(t_items *it, char *s)
 {
-	size_t	i;
-	size_t	c;
+	t_data	*data;
+	int		b;
 
-	c = 0;
-	i = ft_strlen(s1) - 4;
-	while ((s2[c] == s1[i]) && (s1[i] != '\0'))
+	data = malloc(sizeof(t_data));
+	b = 32;
+	data->img = mlx_xpm_file_to_image(it->mlx, s, &b, &b);
+	if (data->img == NULL)
 	{
-		c++;
-		i++;
+		free(data);
+		return (NULL);
 	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[c]);
+	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
+			&data->line_length, &data->endian);
+	return (data);
+	
+}
+
+void	load_texture(t_items *it)
+{
+	it->textures->ea = load(it, it->ea);
+	it->textures->no = load(it, it->no);
+	it->textures->so = load(it, it->so);
+	it->textures->we = load(it, it->we);
+
 }
 
 void	initializer(t_items *it)
@@ -40,8 +53,8 @@ void	initializer(t_items *it)
 	it->px = 150;
 	it->py = 400;
 	it->pa = 90;
-	it->pdx = cos(degToRad(it->pa));
-	it->pdy = -sin(degToRad(it->pa));
+	it->pdx = cos(deg_to_rad(it->pa));
+	it->pdy = -sin(deg_to_rad(it->pa));
 	it->thickness = 8;
 	it->ipx = 0;
 	it->ipx_add_x0 = 0;
@@ -51,6 +64,7 @@ void	initializer(t_items *it)
 	it->ipy_sub_y0 = 0;
 	it->x0 = 0;
 	it->y0 = 0;
+	it->textures = calloc(1, sizeof(t_textures *));
 }
 
 int	ft_exit(t_items *it)
@@ -73,33 +87,27 @@ void	my_mlx_pixel_put(t_items *it, int x, int y, int color)
 	char	*dst;
 
 	dst = it->addr + (y * it->line_length + x * (it->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	floor_rgb(t_items *it)
 {
-	unsigned char		*s1;
-	unsigned const char	*s2;
+	char **rgb;
+	
+	rgb = ft_split(it->floor, ',');
 
-	s1 = (unsigned char *)dst;
-	s2 = (unsigned char *)src;
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	while (n--)
-		*s1++ = *s2++;
-	return (dst);
+	it->red_f = ft_atoi(rgb[0]);
+	it->green_f = ft_atoi(rgb[1]);
+	it->blue_f = ft_atoi(rgb[2]);
 }
 
-char	*ft_strdup(char *s1)
+void	ceiling_rgb(t_items *it)
 {
-	size_t	lenght;
-	char	*s2;
+	char **rgb;
+	
+	rgb = ft_split(it->floor, ',');
 
-	lenght = ft_strlen(s1);
-	s2 = malloc(lenght + 1);
-	if (!s2)
-		return (0);
-	ft_memcpy(s2, s1, lenght);
-	s2[lenght] = '\0';
-	return (s2);
+	it->red_c = ft_atoi(rgb[0]);
+	it->green_c = ft_atoi(rgb[1]);
+	it->blue_c = ft_atoi(rgb[2]);
 }

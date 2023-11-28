@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 19:00:37 by lbusi             #+#    #+#             */
-/*   Updated: 2023/11/25 19:45:20 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:42:28 by lbusi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	line_counter(t_items *it)
 
 int	column_counter(t_items *it)
 {
-	int i;
+	int	i;
 	int	j;
-	int tmp;
-	
+	int	tmp;
+
 	i = 0;
 	tmp = 0;
 	while (it->matrix[i])
@@ -92,10 +92,9 @@ int	column_counter(t_items *it)
 	return (tmp);
 }
 
-
 void	printmatrix(t_items *it)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;

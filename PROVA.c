@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/25 19:54:11 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:53:39 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 // 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
 // 			&data->line_length, &data->endian);
 // 	return (data);
-	
+
 // }
 
 // void	ft_create_level(t_data *mlx)
@@ -62,7 +62,7 @@
 
 // }
 
-void drawLine(void *mlx, void *win, int x1, int y1, int x2, int y2, int color)
+void	draw_line(void *mlx, void *win, int x1, int y1, int x2, int y2, int color)
 {
 	int dx = abs(x2 - x1);
 	int sx = x1 < x2 ? 1 : -1;
@@ -74,17 +74,14 @@ void drawLine(void *mlx, void *win, int x1, int y1, int x2, int y2, int color)
 	while (1)
 	{
 		mlx_pixel_put(mlx, win, x1, y1, color);
-
 		if (x1 == x2 && y1 == y2)
-			break;
-
+			break ;
 		e2 = 2 * err;
 		if (e2 >= dy)
 		{
 			err += dy;
 			x1 += sx;
 		}
-
 		if (e2 <= dx)
 		{
 			err += dx;
@@ -93,70 +90,93 @@ void drawLine(void *mlx, void *win, int x1, int y1, int x2, int y2, int color)
 	}
 }
 
-void	draw3DWall(t_items *it, int r, float lineOff, float lineH)
+unsigned int	get_pixel(t_data *img, int x, int y)
 {
-    for (int y = lineOff; y < lineOff + lineH; y++)
-    {
+	char	*dest;
+
+	if (x <= 0 || x >= 32 || y <= 0 || y >= 32)
+		return (1);
+	dest = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dest);
+}
+
+void	draw_3d_wall(t_items *it, int r, float lineOff, float lineH)
+{
+	// int	color;
+
+	for (int y = lineOff; y < lineOff + lineH; y++)
+	{
 		for (int i = 0; i <= it->thickness; i++)
 		{
-        	int color = 0xFF0000; // Colore rosso per la barra
-        	my_mlx_pixel_put(it, r * 8 + i, y, color);
-    	}
+			// color = 0xFF0000;
+			if (it->hmt == 0)
+				my_mlx_pixel_put(it, r * 8 + i, y, get_pixel(it->textures->no, it->tx, it->ty));
+			else if (it->hmt == 3)
+				my_mlx_pixel_put(it, r * 8 + i, y, get_pixel(it->textures->ea, it->tx, it->ty));
+			else if (it->hmt == 1)
+				my_mlx_pixel_put(it, r * 8 + i, y, get_pixel(it->textures->so, it->tx, it->ty));
+			else if (it->hmt == 2)
+				my_mlx_pixel_put(it, r * 8 + i, y, get_pixel(it->textures->we, it->tx, it->ty));
+		}
+		it->ty += it->ty_step;
 	}
 }
 
-void	drawceiling(t_items *it)
+void	draw_ceiling(t_items *it)
 {
-	int y;
-	int x;
-	
+	int	y;
+	int	x;
+	int	color;
+
 	y = 0;
+	color = create_rgb(64, 108, 207);
 	while (y < 280)
 	{
 		x = 0;
 		while (x < 960)
 		{
-			my_mlx_pixel_put(it, x, y, 0x0000FF);
-			x++;			
+			my_mlx_pixel_put(it, x, y, color);
+			x++;
 		}
 		y++;
 	}
 }
 
-void	drawfloor(t_items *it)
+void	draw_floor(t_items *it)
 {
-	int y;
-	int x;
-	
+	int	y;
+	int	x;
+	int	color;
+
+	color = create_rgb(159, 77, 47);
 	y = 280;
 	while (y < 640)
 	{
 		x = 0;
 		while (x < 960)
 		{
-			my_mlx_pixel_put(it, x, y, 0x00F00F);
-			x++;			
+			my_mlx_pixel_put(it, x, y, color);
+			x++;
 		}
 		y++;
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_items it;
+	t_items	it;
 
-	if(ac == 2)
+	if (ac == 2)
 	{
-		int s = 64;
 		it.map = av[1];
 		initializer(&it);
 		it.y_max = line_counter(&it);
 		readfile(&it);
 		it.x_max = column_counter(&it);
-		printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.floor, it.ceiling);
-		//mlx_xpm_file_to_image(it.mlx, it.ea, &s, &s);
-		// matrix_c(&it);
+		printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.ceiling, it.floor);
+		load_texture(&it);
 		draw_rays_2d(&it);
+		floor_rgb(&it);
 		mlx_hook(it.win, 2, (1L << 0), button_down, &it);
 		mlx_hook(it.win, 3, 1L << 1, button_up, &it);
 		mlx_loop_hook(it.mlx, movement, &it);
