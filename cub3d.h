@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:52:37 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/28 19:20:44 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:11:16 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ typedef struct s_items
 	float	hx;
 	float	hy;
 	float	ca;
-	float	lineh;
+	int		lineh;
 	float	lineoff;
 	t_textures	*textures;
 }				t_items;
@@ -142,6 +142,8 @@ void	draw_player_2d(t_items *it);
 void	read_rgb(t_items *it);
 void	floor_rgb(t_items *it);
 void	ceiling_rgb(t_items *it);
+void	player_pos(t_items *it);
+void	initializer2(t_items *it);
 int		ft_strcmp(char *s1, char *s2);
 int		line_counter(t_items *it);
 int		column_counter(t_items *it);
@@ -167,6 +169,7 @@ void	boh3(t_items *it);
 void	boh4(t_items *it);
 void	boh5(t_items *it);
 char	**ft_split(const char *s, char c);
+int		check_input(char **av);
 // int		check_input(int key, t_items *it);
 // void	fd_check(t_items *it);
 #endif

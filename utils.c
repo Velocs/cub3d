@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:31 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/28 19:19:57 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:19:50 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ void	initializer(t_items *it)
 	it->addr = mlx_get_data_addr(it->img, &it->bits_per_pixel, &it->line_length, &it->endian);
 	it->px = 150;
 	it->py = 400;
-	it->pa = 90;
-	it->pdx = cos(deg_to_rad(it->pa));
-	it->pdy = -sin(deg_to_rad(it->pa));
 	it->thickness = 8;
 	it->ipx = 0;
 	it->ipx_add_x0 = 0;
@@ -65,6 +62,12 @@ void	initializer(t_items *it)
 	it->x0 = 0;
 	it->y0 = 0;
 	it->textures = calloc(1, sizeof(t_textures *));
+}
+
+void	initializer2(t_items *it)
+{
+	it->pdx = cos(deg_to_rad(it->pa));
+	it->pdy = -sin(deg_to_rad(it->pa));
 }
 
 int	ft_exit(t_items *it)
@@ -105,7 +108,7 @@ void	ceiling_rgb(t_items *it)
 {
 	char **rgb;
 	
-	rgb = ft_split(it->floor, ',');
+	rgb = ft_split(it->ceiling, ',');
 
 	it->red_c = ft_atoi(rgb[0]);
 	it->green_c = ft_atoi(rgb[1]);

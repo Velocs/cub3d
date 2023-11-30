@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:58 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/28 19:10:47 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:46:22 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	readfile(t_items *it)
 	int		fd;
 	int		i;
 
-	i = 16;
+	i = it->y_max;
 	it->y = 0;
 	fd = open(it->map, O_RDONLY);
-	printf("%d\n", i);
 	if (fd == -1)
 		exit(0);
 	it->file = (char *) calloc((i) + 1, sizeof(char *));
@@ -36,7 +35,6 @@ void	readfile(t_items *it)
 		i--;
 	}
 	it->y_max = it->y;
-	printf("%d\n", it->y_max);
 	close(fd);
 	it->file = NULL;
 }

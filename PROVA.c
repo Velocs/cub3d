@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/28 18:53:39 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:14:01 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,10 @@ unsigned int	get_pixel(t_data *img, int x, int y)
 
 void	draw_3d_wall(t_items *it, int r, float lineOff, float lineH)
 {
-	// int	color;
-
 	for (int y = lineOff; y < lineOff + lineH; y++)
 	{
 		for (int i = 0; i <= it->thickness; i++)
 		{
-			// color = 0xFF0000;
 			if (it->hmt == 0)
 				my_mlx_pixel_put(it, r * 8 + i, y, get_pixel(it->textures->no, it->tx, it->ty));
 			else if (it->hmt == 3)
@@ -129,7 +126,7 @@ void	draw_ceiling(t_items *it)
 	int	color;
 
 	y = 0;
-	color = create_rgb(64, 108, 207);
+	color = create_rgb(it->red_c, it->green_c, it->blue_c);
 	while (y < 280)
 	{
 		x = 0;
@@ -148,7 +145,7 @@ void	draw_floor(t_items *it)
 	int	x;
 	int	color;
 
-	color = create_rgb(159, 77, 47);
+	color = create_rgb(it->red_f, it->green_f, it->blue_f);
 	y = 280;
 	while (y < 640)
 	{
@@ -166,22 +163,29 @@ int	main(int ac, char **av)
 {
 	t_items	it;
 
-	if (ac == 2)
+	if (ac == 2 && check_input(av) == 1)
 	{
 		it.map = av[1];
 		initializer(&it);
 		it.y_max = line_counter(&it);
 		readfile(&it);
 		it.x_max = column_counter(&it);
-		printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.ceiling, it.floor);
+		//printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.ceiling, it.floor);
+		player_pos(&it);
+		initializer2(&it);
 		load_texture(&it);
 		draw_rays_2d(&it);
 		floor_rgb(&it);
+		ceiling_rgb(&it);
+		printmatrix(&it);
+		printf("y_max: %d\nx_max: %d\n px %f py %f\n", it.y_max, it.x_max, it.px, it.py);
 		mlx_hook(it.win, 2, (1L << 0), button_down, &it);
 		mlx_hook(it.win, 3, 1L << 1, button_up, &it);
 		mlx_loop_hook(it.mlx, movement, &it);
 		mlx_hook(it.win, 17, 1L << 16, ft_exit, &it);
 		mlx_loop(it.mlx);
 	}
+	else
+		printf("Map error!\n");
 	return (0);
 }
