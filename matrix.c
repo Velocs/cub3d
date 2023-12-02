@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 19:00:37 by lbusi             #+#    #+#             */
-/*   Updated: 2023/11/28 11:42:28 by lbusi            ###   ########.fr       */
+/*   Updated: 2023/12/02 18:03:58 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_matrix(t_items *it)
 	int	i;
 
 	i = 0;
-	while (it->matrix[i])
+	while (i < it->y_max)
 	{
 		free(it->matrix[i]);
 		i++;
@@ -98,10 +98,10 @@ void	printmatrix(t_items *it)
 	int	j;
 
 	i = 0;
-	while (it->matrix[i])
+	while (i < it->y_max)
 	{
 		j = 0;
-		while (it->matrix[i][j])
+		while (j < it->x_max)
 		{
 			printf("%c", it->matrix[i][j]);
 			j++;

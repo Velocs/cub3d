@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:52:37 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:11:16 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:35:01 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "minilibX/mlx.h"
 # include "get_next_line/get_next_line_bonus.h"
 # include <string.h>
+# include <stdbool.h>
 
 # define MAPS 64
 # define PI 3.14159
@@ -144,6 +145,8 @@ void	floor_rgb(t_items *it);
 void	ceiling_rgb(t_items *it);
 void	player_pos(t_items *it);
 void	initializer2(t_items *it);
+int	is_zero_enclosed_by_one(char **matrix, int rows, int cols);
+int validate_map(char **matrix, int rows, int cols);
 int		ft_strcmp(char *s1, char *s2);
 int		line_counter(t_items *it);
 int		column_counter(t_items *it);

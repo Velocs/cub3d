@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:38:22 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:35:28 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:58:12 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	player_pos(t_items *it)
 	int	j;
 
 	i = 0;
-	while(it->matrix[i])
+	while(i < it->y_max)
 	{
 		j = 0;
-		while (it->matrix[i][j])
+		while (j < it->x_max)
 		{
 			if (it->matrix[i][j] == 'N')
 			{

@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:22:43 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:14:01 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/02 19:09:56 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	draw_ceiling(t_items *it)
 
 	y = 0;
 	color = create_rgb(it->red_c, it->green_c, it->blue_c);
-	while (y < 280)
+	while (y < 320)
 	{
 		x = 0;
 		while (x < 960)
@@ -159,6 +159,150 @@ void	draw_floor(t_items *it)
 	}
 }
 
+void	printnewmatrix(char **new_matrix)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (new_matrix[i])
+	{
+		j = 0;
+		while (new_matrix[i][j])
+		{
+			printf("%c", new_matrix[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
+
+// char	**xd(t_items	*it)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		k;
+// 	char	**new_matrix;
+
+// 	if (it->x_max > it->y_max)
+// 	{
+// 		k = it->x_max - it->y_max;
+// 		new_matrix = (char**)malloc(sizeof(char*) * it->x_max);
+// 		if (!new_matrix)
+// 			return (NULL);
+// 		printf("%d\n", k);
+// 		while (k > 0)
+// 		{
+// 			i = 0;
+// 			while (i < it->x_max - 1 && it->matrix[i])
+// 			{
+// 				new_matrix[i] = (char *)malloc(sizeof(char) * it->x_max);
+// 				j = 0;
+// 				while (it->matrix[i][j])
+// 				{
+// 					new_matrix[i][j] = it->matrix[i][j];
+// 					j++;
+// 				}
+// 				i++;
+// 			}
+// 			new_matrix[i] = "1";
+// 			new_matrix[i + 1] = "\0";
+// 			k--;
+// 		}
+// 		it->y_max = it->x_max;
+// 		return (new_matrix);
+// 	}
+// 	else if (it->y_max > it->x_max)
+// 	{
+// 		k = it->y_max - it->x_max;
+// 		new_matrix = (char**)malloc(sizeof(char*) * it->y_max);
+// 		if (!new_matrix)
+// 			return (NULL);
+// 		printf("%d\n", k);
+// 		while (k > 0)
+// 		{
+// 			i = 0;
+// 			while (i < it->y_max - 1 && it->matrix[i])
+// 			{
+// 				new_matrix[i] = (char *)malloc(sizeof(char) * it->y_max);
+// 				j = 0;
+// 				while (it->matrix[i][j])
+// 				{
+// 					new_matrix[i][j] = it->matrix[i][j];
+// 					j++;
+// 				}
+// 				i++;
+// 			}
+// 			new_matrix[i] = "1";
+// 			new_matrix[i + 1] = "\0";
+// 			k--;
+// 		}
+// 		it->x_max = it->y_max;
+// 		return (new_matrix);
+// 	}
+// 	return (it->matrix);
+// }
+
+size_t	ft_longest(int x, int y)
+{
+	if (x > y)
+		return (x);
+	return (y);
+}
+
+char **xd(t_items *it) {
+    char **new_matrix;
+    int i, j;
+	int o;
+    int x = ft_longest(it->x_max, it->y_max); // Supponendo che ft_longest restituisca la dimensione massima tra x_max e y_max
+
+    // Allocazione della memoria per la nuova matrice
+    new_matrix = calloc(x, sizeof(char **));
+    if (!new_matrix) {
+        // Gestione dell'errore di allocazione della memoria
+        return NULL;
+    }
+
+    // Allocazione della memoria per ciascuna riga di new_matrix e riempimento con '1'
+    for (i = 0; i < x; i++) {
+        new_matrix[i] = calloc(x, sizeof(char *));
+        if (!new_matrix[i]) {
+            // Gestione dell'errore di allocazione della memoria
+            // Deallocazione della memoria allocata finora
+            for (int j = 0; j < i; j++) {
+                free(new_matrix[j]);
+            }
+            free(new_matrix);
+            return NULL;
+        }
+		j = 0;
+        while (j < x)
+		{
+            new_matrix[i][j] = '7';
+			j++;
+		}
+        new_matrix[i][j] = '\0';
+    }
+
+    // Copia degli elementi da it->matrix a new_matrix
+    for (i = 0; i < it->y_max; i++) {
+        for (j = 0, o = 0; it->matrix[i][j] && o < it->x_max; j++, o++) {
+            if (i < x && j < x) {
+				if (it->matrix[i][o] == ' ')
+				{
+					o++;
+				}
+                new_matrix[i][j] = it->matrix[i][o];
+            }
+        }
+    }
+	it->x_max = x;
+	it->y_max = x;
+    return new_matrix;
+}
+
 int	main(int ac, char **av)
 {
 	t_items	it;
@@ -170,15 +314,22 @@ int	main(int ac, char **av)
 		it.y_max = line_counter(&it);
 		readfile(&it);
 		it.x_max = column_counter(&it);
-		//printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.ceiling, it.floor);
+		if (it.x_max != it.y_max)
+			it.matrix = xd(&it);
+		printmatrix(&it);
+		if (!validate_map(it.matrix, it.y_max, it.x_max))
+		{
+			printf("MAPP ERROR\n");
+			ft_exit(&it);
+		}
+			//printf("%s\n%s\n%s\n%s\n%s\n%s\n", it.no, it.so, it.ea, it.we, it.ceiling, it.floor);
 		player_pos(&it);
+		printf("y_max: %d\nx_max: %d\n px %f py %f\n", it.y_max, it.x_max, it.px, it.py);
 		initializer2(&it);
 		load_texture(&it);
 		draw_rays_2d(&it);
 		floor_rgb(&it);
 		ceiling_rgb(&it);
-		printmatrix(&it);
-		printf("y_max: %d\nx_max: %d\n px %f py %f\n", it.y_max, it.x_max, it.px, it.py);
 		mlx_hook(it.win, 2, (1L << 0), button_down, &it);
 		mlx_hook(it.win, 3, 1L << 1, button_up, &it);
 		mlx_loop_hook(it.mlx, movement, &it);
