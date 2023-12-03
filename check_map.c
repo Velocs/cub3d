@@ -1,112 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/03 18:37:29 by lbusi             #+#    #+#             */
+/*   Updated: 2023/12/03 18:37:31 by lbusi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-bool	is_valid_position(int rows, int cols, int x, int y)
+bool	is_val_pos(int y_max, int x_max, int x, int y)
 {
-	return (x >= 0 && x < rows && y >= 0 && y < cols);
+	return (x >= 0 && x < y_max && y >= 0 && y < x_max);
 }
 
-int	is_zero_enclosed_by_one(char **matrix, int rows, int cols)
+void	queue_init(t_items *it)
 {
-	int	dx[]= {-1, -1, -1, 0, 0, 1, 1, 1};
-	int	dy[] = {-1, 0, 1, -1, 1, -1, 0, 1};
-	bool	visited[rows][cols];
-	int	i;
-	int	j;
+	it->queue_x = malloc(sizeof(int) * (it->y_max * it->x_max));
+	if (!it->queue_x)
+		return ;
+	it->queue_y = malloc(sizeof(int) * (it->y_max * it->x_max));
+	if (!it->queue_y)
+		return ;
+}
 
-	i = 0;
-	j = 0;
-	while (i < rows)
-	{
-		j = 0;
-		while (j < cols)
-		{
-			visited[i][j] = false;
-			j++;
-		}
-		i++;
-	}
+void	free_struct(t_items *it)
+{
+	free(it->queue_x);
+	free(it->queue_y);
+	free(it->dx);
+	free(it->dy);
+}
 
-	for (int i = 0; i < rows; i++)
+int	is_zero_enclosed_by_one(t_items *it)
+{
+	is_zero_init(it);
+	while (it->i < it->y_max)
 	{
-		for (int j = 0; j < cols; j++)
+		it->j = 0;
+		while (it->j < it->x_max)
 		{
-			if (matrix[i][j] == '0' && !visited[i][j])
+			if (it->matrix[it->i][it->j] == '0' && !it->visited[it->i][it->j])
 			{
-				bool is_enclosed = true;
-				visited[i][j] = true;
-				int queue_x[rows * cols];
-				int queue_y[rows * cols];
-				int front = 0, rear = 0;
-				queue_x[rear] = i;
-				queue_y[rear] = j;
-				rear++;
-
-				while (front != rear) {
-					int x = queue_x[front];
-					int y = queue_y[front];
-					front++;
-
-					for (int k = 0; k < 8; k++) {
-						int nx = x + dx[k];
-						int ny = y + dy[k];
-
-						if (is_valid_position(rows, cols, nx, ny) && matrix[nx][ny] == '0' && !visited[nx][ny])
-						{
-							visited[nx][ny] = true;
-							queue_x[rear] = nx;
-							queue_y[rear] = ny;
-							rear++;
-						}
-						else if (!is_valid_position(rows, cols, nx, ny) || matrix[nx][ny] == '7')
-						{
-							is_enclosed = false;
-						}
-					}
-				}
-				if (is_enclosed)
+				is_zero_helper4(it);
+				if (it->is_enclosed)
+					continue ;
+				else
 				{
-					continue;
-				} else
-				{
+					free_struct(it);
 					return (0);
 				}
 			}
+			it->j++;
 		}
+		it->i++;
 	}
+	free_struct(it);
 	return (1);
 }
 
-int validate_map(char **matrix, int rows, int cols)
+int	validate_map(t_items *it)
 {
-    int player_position_found = 0;
-    char valid_chars[] = "7 01NSEW";
-    for (int i = 0; i < rows; i++)
+	it->player_position_found = 0;
+	valid_char_init(it);
+	it->u = 0;
+	while (it->u < it->y_max)
 	{
-        for (int j = 0; j < cols; j++)
+		it->v = 0;
+		while (it->v < it->x_max)
 		{
-            char current_char = matrix[i][j];
-            bool is_valid_char = false;
-            for (int k = 0; valid_chars[k] != '\0'; k++)
-			{
-                if (current_char == valid_chars[k]) {
-                    is_valid_char = true;
-                    break;
-                }
-            }
-            if (!is_valid_char) {
-                return 0;
-            }
-            if (current_char == 'N' || current_char == 'S' || current_char == 'E' || current_char == 'W') {
-                player_position_found ++;
-            }
-        }
-    }
-    if (player_position_found != 1) {
-        return 0;
-    }
-    if (is_zero_enclosed_by_one(matrix, rows, cols) == 0) {
-        return 0;
-    }
-
-    return 1;
+			is_map_helper(it);
+			if (!it->is_valid_char)
+				return (0);
+			if (it->current_char == 'N' || it->current_char == 'S' || \
+				it->current_char == 'E' || it->current_char == 'W')
+				it->player_position_found ++;
+			it->v++;
+		}
+		it->u++;
+	}
+	if (it->player_position_found != 1)
+		return (0);
+	if (is_zero_enclosed_by_one(it) == 0)
+		return (0);
+	return (1);
 }

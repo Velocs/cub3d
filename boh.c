@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:48:18 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/12/02 16:43:43 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/03 15:59:17 by lbusi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,28 +116,7 @@ void	boh4(t_items *it)
 void	boh5(t_items *it)
 {
 	it->shade = 1;
-	if (it->disv < it->dish)
-	{
-		it->shade = 0.5;
-		it->rx = it->vx;
-		it->ry = it->vy;
-		it->dist = it->disv;
-	}
-	if (it->dish < it->disv)
-	{
-		it->rx = it->hx;
-		it->ry = it->hy;
-		it->dist = it->dish;
-	}
-	it->ca = it->pa - it->ra;
-	if (it->ca < 0)
-		it->ca += 2 * PI;
-	if (it->ca > 2 * PI)
-		it->ca -= 2 * PI;
-	it->dist = it->dist * cos(deg_to_rad(it->ca));
-	it->lineh = (64 * 640) / (it->dist);
-	it->ty_step = 32.0 / (float)it->lineh;
-	it->ty_off = 0;
+	boh6(it);
 	if (it->lineh > 640)
 	{
 		it->ty_off = (it->lineh - 640) / 2.0;
@@ -145,24 +124,5 @@ void	boh5(t_items *it)
 	}
 	it->lineoff = 320 - (it->lineh >> 1);
 	it->ty = it->ty_off * it->ty_step;
-	if(it->shade == 1)
-	{
-		it->hmt = 0;
-		it->tx = (int)(it->rx / 2.0) % 32;
-		if (it->ra > 180)
-		{
-			it->tx = 32 - it->tx;
-			it->hmt = 1;	
-		}
-	}
-	else
-	{
-		it->tx = (int)(it->ry / 2.0) % 32;
-		it->hmt = 3;
-		if (it->ra > 90 && it->ra < 270)
-		{
-			it->hmt = 2;
-			it->tx = 32 - it->tx;
-		}	
-	}
+	boh7(it);
 }

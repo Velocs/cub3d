@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:30:07 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/12/02 18:01:01 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/03 15:37:34 by lbusi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,19 @@ int	movement(t_items *it)
 	it->ipy = it->py / 64.0;
 	it->ipy_add_y0 = (it->py + it->y0) / 64.0;
 	it->ipy_sub_y0 = (it->py - it->y0) / 64.0;
+	movement_helper1(it);
+	movement_helper2(it);
+	if (it->esc == 1)
+		ft_exit(it);
+	ft_clear(it);
+	draw_floor(it);
+	draw_ceiling(it);
+	draw_rays_2d(it);
+	return (0);
+}
+
+void	movement_helper1(t_items *it)
+{
 	if (it->w == 1)
 	{
 		if (it->matrix[it->ipy][it->ipx_add_x0] != '1')
@@ -74,6 +87,10 @@ int	movement(t_items *it)
 		it->pdx = cos(deg_to_rad(it->pa));
 		it->pdy = -sin(deg_to_rad(it->pa));
 	}
+}
+
+void	movement_helper2(t_items *it)
+{
 	if (it->s == 1)
 	{
 		if (it->matrix[it->ipy][it->ipx_sub_x0] != '1')
@@ -88,24 +105,4 @@ int	movement(t_items *it)
 		it->pdx = cos(deg_to_rad(it->pa));
 		it->pdy = -sin(deg_to_rad(it->pa));
 	}
-	if (it->esc == 1)
-		ft_exit(it);
-	ft_clear(it);
-	draw_floor(it);
-	draw_ceiling(it);
-	draw_rays_2d(it);
-	return (0);
-}
-
-int	check_input(char **av)
-{
-	int	i;
-
-	i = 0;
-	while (av[1][i] != '.')
-		i++;
-	if (ft_strcmp(av[1], ".cub") == 0)
-		return (1);
-	else
-		return (0);
 }

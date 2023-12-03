@@ -3,56 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbusi <lbusi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:38:22 by aliburdi          #+#    #+#             */
-/*   Updated: 2023/12/02 17:58:12 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:33:16 by lbusi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	player_helper(t_items *it)
+{
+	if (it->matrix[it->p][it->q] == 'N')
+	{
+		it->px = (it->q * 64) + 32;
+		it->py = (it->p * 64) + 32;
+		it->pa = 90;
+	}
+	if (it->matrix[it->p][it->q] == 'W')
+	{
+		it->px = (it->q * 64) + 32;
+		it->py = (it->p * 64) + 32;
+		it->pa = 180;
+	}
+	if (it->matrix[it->p][it->q] == 'S')
+	{
+		it->px = (it->q * 64) + 32;
+		it->py = (it->p * 64) + 32;
+		it->pa = 270;
+	}
+}
+
 void	player_pos(t_items *it)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while(i < it->y_max)
+	it->p = 0;
+	while (it->p < it->y_max)
 	{
-		j = 0;
-		while (j < it->x_max)
+		it->q = 0;
+		while (it->q < it->x_max)
 		{
-			if (it->matrix[i][j] == 'N')
+			player_helper(it);
+			if (it->matrix[it->p][it->q] == 'E')
 			{
-				it->px = (j * 64) + 32;
-				it->py = (i * 64) + 32;
-				it->pa = 90;
-				break;
-			}
-			else if (it->matrix[i][j] == 'W')
-			{
-				it->px = (j * 64) + 32;
-				it->py = (i * 64) + 32;
-				it->pa = 180;
-				break;
-			}
-			else if (it->matrix[i][j] == 'S')
-			{
-				it->px = (j * 64) + 32;
-				it->py = (i * 64) + 32;
-				it->pa = 270;
-				break;
-			}
-			else if (it->matrix[i][j] == 'E')
-			{
-				it->px = (j * 64) + 32;
-				it->py = (i * 64) + 32;
+				it->px = (it->q * 64) + 32;
+				it->py = (it->p * 64) + 32;
 				it->pa = 0;
-				break;
 			}
-			j++;
+			it->q++;
 		}
-		i++;
+		it->p++;
 	}
 }

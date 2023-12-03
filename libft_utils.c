@@ -6,7 +6,7 @@
 /*   By: aliburdi <aliburdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:54:09 by lbusi             #+#    #+#             */
-/*   Updated: 2023/11/28 18:32:59 by aliburdi         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:59:54 by aliburdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,17 @@ int	ft_atoi(const char *str)
 	if (num > 9223372036854775807 && neg == 1)
 		return (-1);
 	return (num * neg);
+}
+
+void	*ft_calloc(size_t nitems, size_t size)
+{
+	void	*ptr;
+	int		i;
+
+	i = nitems * size;
+	ptr = malloc(i);
+	if (!ptr)
+		return (0);
+	ft_bzero(ptr, i);
+	return (ptr);
 }
